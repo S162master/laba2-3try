@@ -3,24 +3,31 @@
 
 int read_file(dat* information){
     fstream file;
-    file.open(information->linePathFile.toStdString());
+     int * values = NULL;
+    file.open(information->linePathFile);
     alldata* temp_array;
-
+    int result;
     if (file.is_open()){
-        temp_array = (alldata*)calloc(3000,sizeof(alldata));
+
+        temp_array = (alldata*)calloc(1,sizeof(alldata));
             string str, str_shapka;
-            getline(file, str_shapka, '\n');//считываем шапку
+            getline(file, str_shapka, '\n');
             string inregion;
             size_t index = 0;
-            while (getline(file, str, '\n')) {//последовательно берем по одной строке
+            int count =2;
+            while (getline(file, str, '\n')) {
+
                 stringstream inputt(str);
                 string mas[7];
                 int i = 0, j=0;
-                while (getline(inputt, mas[i], ','))//работа со строкой
-                    i++;
-                if (mas[0] != "" && mas[2] != "" && mas[3] != "" && mas[4] != "" && mas[5] != "" && mas[6] != "" && mas[1] == information->lineNameRegion.toStdString()){
+                while (getline(inputt, mas[i], ','))
+                i++;
+
+                if (mas[0] != "" && mas[2] != "" && mas[3] != "" && mas[4] != "" && mas[5] != "" && mas[6] != "" && mas[1] == (information->lineNameRegion)){
+                    temp_array = (alldata*)realloc(temp_array,(index + 1) * sizeof(alldata));
                     temp_array[index]._year = stoi(mas [0]);
-                    temp_array[index]._region = QString::fromStdString(mas[1]);
+                    temp_array[index]._region = new char[mas[1].length()];
+                    strcpy(temp_array[index]._region,mas[1].c_str());
                     temp_array[index]._npg = stod(mas [2]);
                     temp_array[index]._birth_rate = stod(mas [3]);
                     temp_array[index]._death_rate = stod(mas [4]);
@@ -28,21 +35,27 @@ int read_file(dat* information){
                     temp_array[index]._urbanization = stod(mas [6]);
                     j++;
                     index++;
+                    count++;
                 }else
                     qDebug("обнаружено неверное значение");
+
             }
             information->size = index;
             information->massivdata = (alldata*)calloc(information->size,sizeof(alldata));
+            if(!information->massivdata){
+                result = -3;
+            }
             for (int i = 0; i < information->size; i++){
                 information->massivdata[i] = temp_array[i];
             }
             free(temp_array);
+            file.close();
         }else
-          return -1;
-    file.close();
+        result = -1;
     if (information->size == 0){
-        return -2;
+        result = -2;
     }
-    return 0;
+    result = 0;
+    return result;
 }
 

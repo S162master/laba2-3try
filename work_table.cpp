@@ -8,7 +8,7 @@ void MainWindow::Work_table(){
     ui->TableWidget->setHorizontalHeaderLabels(QStringList()<<"Year"<<"Region"<<"Npg"<<"Birth_rate"<<"Death_rate"<<"Gdw"<<"Urbanization");
     if (information.size == 0)
         return;
-    for (int i = 0; i < information.size; i++){//заносим данные
+    for (int i = 0; i < information.size; i++){
         for(int j = 0; j < 7; j++){
             switch (j) {
             case 0:

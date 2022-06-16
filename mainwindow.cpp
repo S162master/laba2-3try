@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "readfile.h"
+#include "string.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,7 +31,7 @@ void MainWindow::on_btn_openfile_clicked()
 
 void MainWindow::on_btn_loaddata_clicked()//слот под кнопку загрузки
 {
-    if ((ui->NameRegion->text() == "") or (ui->LinePathFile->text() == "")){
+    if ((ui->NameRegion->text() == "") || (ui->LinePathFile->text() == "")){
         if (ui->NameRegion->text() == ""){
             QMessageBox::information(this,"окно","пустой регион");
         }
@@ -39,8 +40,8 @@ void MainWindow::on_btn_loaddata_clicked()//слот под кнопку заг�
         }
     }else{
         if(information.size != 0)free(information.massivdata);
-        information.linePathFile = ui->LinePathFile->text();
-        information.lineNameRegion= ui->NameRegion->text();
+        information.linePathFile = ui->LinePathFile->text().toStdString();
+        information.lineNameRegion = ui->NameRegion->text().toStdString();
         information.work_file = variants::readfile;
         SinglePointOfEmpty(&information);
         if (information.kolerrorfile == -1){
@@ -63,10 +64,13 @@ void MainWindow::on_pushButton_calculations_clicked()
     if (ui->NameRegion->text() == ""){
         QMessageBox::information(this,"окно","пустой регион");
     }else{
-        if (ui->number_colomn->text() == "3" or ui->number_colomn->text() == "4" or ui->number_colomn->text() == "5" or ui->number_colomn->text() == "6" or ui->number_colomn->text() == "7"){
-        information.stolb = ui->number_colomn->text();
+        if (ui->number_colomn->text() == "3" || ui->number_colomn->text() == "4" || ui->number_colomn->text() == "5" || ui->number_colomn->text() == "6" || ui->number_colomn->text() == "7"){
+        strcpy(information.stolb, ui->number_colomn->text().toStdString().c_str());
         information.work_file = variants::maxandmin;
         information.maxminavg = (double*)calloc(3, sizeof(double));
+        if(!information.maxminavg){
+            return;
+        }
         if(information.size == 0){
             QMessageBox::critical(this,"окно","ошибка ввода");
         }
@@ -75,7 +79,7 @@ void MainWindow::on_pushButton_calculations_clicked()
             QMessageBox::information(this,"окно","ошибка ввода");
             return;
         }
-        if (information.maxminavg[0] == 0 and information.maxminavg[1] == 0 and information.maxminavg[2] == 0){
+        if (information.maxminavg[0] == 0 && information.maxminavg[1] == 0 && information.maxminavg[2] == 0){
             QMessageBox::information(this,"окно","пустые значения");
         }else{
             ui->min->setText(QString::number(information.maxminavg[0]));

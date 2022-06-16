@@ -12,7 +12,7 @@ enum variants{
 
  struct alldata{
       int _year;
-      QString _region;
+      char* _region;
       double _npg;
       double _birth_rate;
       double _death_rate;
@@ -21,8 +21,8 @@ enum variants{
       //alldata(int year, QString region,double npg,double birth_rate,double death_rate,double gdw, double urbanization);
   };
   struct dat{
-      QString stolb;
-      QString linePathFile, lineNameRegion, Column;
+      char* stolb;
+      string linePathFile, lineNameRegion, Column;
       variants work_file;
       alldata* massivdata;
       size_t size = 0;
