@@ -65,7 +65,7 @@ void MainWindow::on_pushButton_calculations_clicked()
         QMessageBox::information(this,"окно","пустой регион");
     }else{
         if (ui->number_colomn->text() == "3" || ui->number_colomn->text() == "4" || ui->number_colomn->text() == "5" || ui->number_colomn->text() == "6" || ui->number_colomn->text() == "7"){
-        strcpy(information.stolb, ui->number_colomn->text().toStdString().c_str());
+        information.stolb= ui->number_colomn->text().toInt();
         information.work_file = variants::maxandmin;
         information.maxminavg = (double*)calloc(3, sizeof(double));
         if(!information.maxminavg){

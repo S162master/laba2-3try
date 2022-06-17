@@ -4,15 +4,15 @@
 int minmaxavg(dat* information){
     double* temp_array = (double*)calloc(information->size,sizeof(double));
     for(int i=0;i < information->size;i++){
-        if (information->stolb == "3")
+        if (information->stolb == 3)
             temp_array[i] = information->massivdata[i]._npg;
-        else if (information->stolb == "4")
+        else if (information->stolb == 4)
             temp_array[i] = information->massivdata[i]._birth_rate;
-        else if (information->stolb == "5")
+        else if (information->stolb == 5)
             temp_array[i] = information->massivdata[i]._death_rate;
-        else if (information->stolb == "6")
+        else if (information->stolb == 6)
             temp_array[i] = information->massivdata[i]._gdw;
-        else if (information->stolb == "7")
+        else if (information->stolb == 7)
             temp_array[i] = information->massivdata[i]._urbanization;
         else
             return -1;

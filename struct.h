@@ -21,7 +21,7 @@ enum variants{
       //alldata(int year, QString region,double npg,double birth_rate,double death_rate,double gdw, double urbanization);
   };
   struct dat{
-      char* stolb;
+      int stolb;
       string linePathFile, lineNameRegion, Column;
       variants work_file;
       alldata* massivdata;
