@@ -1,7 +1,8 @@
 #include "minmax.h"
 
-
+#define segfold -2
 int minmaxavg(dat* information){
+    int result = 0;
     double* temp_array = (double*)calloc(information->size,sizeof(double));
     for(int i=0;i < information->size;i++){
         if (information->stolb == 3)
@@ -15,9 +16,12 @@ int minmaxavg(dat* information){
         else if (information->stolb == 7)
             temp_array[i] = information->massivdata[i]._urbanization;
         else
-            return -1;
+            result = -1;
     }
     information->drawList = (double*)calloc(information->size,sizeof(double));
+    if (!information->drawList){
+        result = segfold;//сделать с выделениями памяти
+    }
     for (int i = 0; i < information->size; i++){
         information->drawList[i] = temp_array[i];
     }
@@ -41,5 +45,5 @@ int minmaxavg(dat* information){
     information->maxminavg[1]=max;
     information->maxminavg[2]=median;
     free(temp_array);
-    return 0;
+    return result;
 }

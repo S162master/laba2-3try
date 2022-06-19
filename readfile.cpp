@@ -1,29 +1,53 @@
 #include "readfile.h"
+#include <cstdio>
+#include <iostream>
 
+#define segfold -3
 
 int read_file(dat* information){
-    fstream file;
-     int * values = NULL;
-    file.open(information->linePathFile);
+    FILE *file;
+    file = fopen("C:\\table.csv","r");
     alldata* temp_array;
     int result;
-    if (file.is_open()){
+    if (1){
 
         temp_array = (alldata*)calloc(1,sizeof(alldata));
-            string str, str_shapka;
-            getline(file, str_shapka, '\n');
+        if (!temp_array){
+            result = segfold;
+        }
+
+            char* str;
+            char str_shapka[100] = {0};
+            fscanf(file,"%[^\n]",str_shapka);
             string inregion;
             size_t index = 0;
             int count =2;
-            while (getline(file, str, '\n')) {
+            while (!feof(file)){//while (getline(file, str, '\n')) {
 
-                stringstream inputt(str);
-                string mas[7];
+                char** mas;
+                mas = (char**)calloc(7,sizeof(char*));
+                if (!mas){
+                    result = segfold;
+                }
+                int h = 0;
+                while (h < 7){
+                mas[h] = (char*)calloc(30,sizeof(char));
+                if (!mas[h]){
+                    result = segfold;
+                }
+                h++;
+                }
+                char str[100] = {0};
+                char tempstr[2] = {0};
+                fgets(tempstr,2,file);
+                fscanf(file,"%[^\n]",str);
+                sscanf(str,"%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%s",mas[0][0],mas[1][0],mas[2][0],mas[3][0],mas[4][0],mas[5][0],mas[6][0]);
+                qDebug<<mas[0][0]<<mas[0][1]<<mas[0][2]<<mas[0][3]<<mas[0][4];
                 int i = 0, j=0;
-                while (getline(inputt, mas[i], ','))
-                i++;
 
-                if (mas[0] != "" && mas[2] != "" && mas[3] != "" && mas[4] != "" && mas[5] != "" && mas[6] != "" && mas[1] == (information->lineNameRegion)){
+
+
+               /* if (mas[0] != "" && mas[2] != "" && mas[3] != "" && mas[4] != "" && mas[5] != "" && mas[6] != "" && mas[1] == (information->lineNameRegion)){
                     temp_array = (alldata*)realloc(temp_array,(index + 1) * sizeof(alldata));
                     temp_array[index]._year = stoi(mas [0]);
                     temp_array[index]._region = new char[mas[1].length()];
@@ -38,18 +62,20 @@ int read_file(dat* information){
                     count++;
                 }else
                     qDebug("обнаружено неверное значение");
+                    */
 
             }
+
             information->size = index;
             information->massivdata = (alldata*)calloc(information->size,sizeof(alldata));
             if(!information->massivdata){
-                result = -3;
+                result = segfold;
             }
             for (int i = 0; i < information->size; i++){
                 information->massivdata[i] = temp_array[i];
             }
             free(temp_array);
-            file.close();
+            fclose(file);
         }else
         result = -1;
     if (information->size == 0){
