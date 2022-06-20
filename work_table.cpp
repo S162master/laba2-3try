@@ -15,7 +15,7 @@ void MainWindow::Work_table(){
                 ui->TableWidget->setItem(i, j, new QTableWidgetItem(QString::number(information.massivdata[i]._year)));
                 break;
             case 1:
-                ui->TableWidget->setItem(i, j, new QTableWidgetItem(information.massivdata[i]._region));
+                ui->TableWidget->setItem(i, j, new QTableWidgetItem(QString::fromStdString(information.massivdata[i]._region)));
                 break;
             case 2:
                 ui->TableWidget->setItem(i, j, new QTableWidgetItem(QString::number(information.massivdata[i]._npg)));
